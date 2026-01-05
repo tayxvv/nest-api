@@ -25,3 +25,14 @@ model users {
 
   @@map("users")
 }
+
+model organizations {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String    @db.VarChar(150)
+  slug         String    @unique @db.VarChar(180) //domínio da organização
+  status     Boolean   @default(true)
+  created_at    DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@map("organizations")
+}
