@@ -9,7 +9,7 @@ datasource db {
 enum user_role {
   MEMBER
   ADMIN
-  // adicione outros se existirem no seu enum public.user_role
+  ORG_ADMIN
 }
 
 model users {

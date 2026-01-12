@@ -9,7 +9,7 @@ export class OrganizationsService {
   async create(dto: CreateOrganizationDto) {
     const slugOrganization = await this.findSlugOrganization(dto.slug);
     if (slugOrganization) {
-      throw new BadRequestException('Slug já cadastrado.');
+      throw new BadRequestException('Slug already exists.');
     }
     const organization = await this.prisma.organizations.create({
       data: {

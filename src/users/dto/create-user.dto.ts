@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   IsEmail,
   IsOptional,
@@ -14,8 +13,8 @@ export class CreateUserDto {
   tenantId?: string;
 
   @IsOptional()
-  @IsIn(['MEMBER', 'ADMIN'])
-  role?: 'MEMBER' | 'ADMIN';
+  @IsIn(['MEMBER', 'ADMIN', 'ORG_ADMIN'])
+  role?: 'MEMBER' | 'ADMIN' | 'ORG_ADMIN' | null | undefined;
 
   @IsString()
   @MinLength(2)
