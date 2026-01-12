@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 
@@ -7,6 +7,10 @@ export class OrganizationsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateOrganizationDto) {
+    const slugOrganization = await this.findSlugOrganization(dto.slug);
+    if (slugOrganization) {
+      throw new BadRequestException('Slug já cadastrado.');
+    }
     const organization = await this.prisma.organizations.create({
       data: {
         name: dto.name,
@@ -24,5 +28,16 @@ export class OrganizationsService {
     });
 
     return organization;
+  }
+
+  async findSlugOrganization(slug: string) {
+    return this.prisma.organizations.findUnique({
+      where: {
+        slug,
+      },
+      select: {
+        id: true,
+      },
+    });
   }
 }
