@@ -40,4 +40,15 @@ export class OrganizationsService {
       },
     });
   }
+
+  async findAll(tenantId: string | null) {
+    if (tenantId) {
+      return this.prisma.organizations.findMany({
+        where: {
+          id: tenantId,
+        },
+      });
+    }
+    return this.prisma.organizations.findMany();
+  }
 }

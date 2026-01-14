@@ -33,6 +33,7 @@ export class LoginService {
       id: user.id,
       email: user.email,
       role: user.role,
+      tenantId: user.tenant_id,
     });
   }
 }

@@ -1,7 +1,8 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Get } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from '../users/user.decorator';
 
 @Controller('organizations')
 export class OrganizationsController {
@@ -11,5 +12,16 @@ export class OrganizationsController {
   @Post()
   create(@Body() dto: CreateOrganizationDto) {
     return this.organizationsService.create(dto);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  findAll(
+    @User() user: { id: string; email: string; role: string; tenantId: string },
+  ) {
+    if (!user.tenantId) {
+      return this.organizationsService.findAll(null);
+    }
+    return this.organizationsService.findAll(user.tenantId);
   }
 }
