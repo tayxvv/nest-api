@@ -41,14 +41,23 @@ export class OrganizationsService {
     });
   }
 
-  async findAll(tenantId: string | null) {
-    if (tenantId) {
+  async findAll(user: {
+    id: string;
+    email: string;
+    role: string;
+    tenantId: string;
+  }) {
+    if (user.role === 'ADMIN') {
+      return this.prisma.organizations.findMany();
+    }
+    if (user.tenantId) {
       return this.prisma.organizations.findMany({
         where: {
-          id: tenantId,
+          id: user.tenantId,
         },
       });
     }
-    return this.prisma.organizations.findMany();
+
+    return [];
   }
 }

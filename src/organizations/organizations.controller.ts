@@ -19,9 +19,6 @@ export class OrganizationsController {
   findAll(
     @User() user: { id: string; email: string; role: string; tenantId: string },
   ) {
-    if (!user.tenantId) {
-      return this.organizationsService.findAll(null);
-    }
-    return this.organizationsService.findAll(user.tenantId);
+    return this.organizationsService.findAll(user);
   }
 }
